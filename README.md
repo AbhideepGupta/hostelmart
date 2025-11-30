@@ -1,0 +1,1 @@
+HostelMart is a simple and efficient web platform designed to help hostel residents buy and sell essentials within their campus. It allows students to list items, browse available products, and connect with buyers/sellers easily — making campus trade faster, safer, and more organized.
