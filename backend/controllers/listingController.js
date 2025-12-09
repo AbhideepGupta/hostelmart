@@ -1,6 +1,6 @@
 import Listing from "../model/listingModel.js";
 
-// Create new listing
+
 export const createListing = async (req, res) => {
   try {
     const { title, description, price, isLend } = req.body;
@@ -10,7 +10,7 @@ export const createListing = async (req, res) => {
       description,
       price,
       isLend,
-      owner: req.user._id, // logged-in user
+      owner: req.user._id, 
     });
 
     await listing.save();
@@ -20,7 +20,7 @@ export const createListing = async (req, res) => {
   }
 };
 
-// Get all listings
+
 export const getListings = async (req, res) => {
   try {
     const listings = await Listing.find().populate("owner", "name email");
@@ -30,7 +30,7 @@ export const getListings = async (req, res) => {
   }
 };
 
-// Delete listing (only owner)
+
 export const deleteListing = async (req, res) => {
   try {
     const listing = await Listing.findById(req.params.id);

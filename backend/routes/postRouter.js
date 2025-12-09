@@ -1,14 +1,14 @@
 import express from "express";
 import protect from "../middleware/authMiddleware.js";
+import upload from "../middleware/upload.js";
 import { createPost, getPosts, getMyPosts, deletePost } from "../controllers/postController.js";
 
 const router = express.Router();
 
-// Public route
 router.get("/", getPosts);
 
-// Protected routes
-router.post("/", protect, createPost);
+
+router.post("/", protect, upload.single("image"), createPost);
 router.get("/myposts", protect, getMyPosts);
 router.delete("/:id", protect, deletePost);
 

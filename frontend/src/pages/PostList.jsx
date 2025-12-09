@@ -6,7 +6,6 @@ function PostList() {
 
   const token = localStorage.getItem("token");
 
-  // Decode token safely to get logged-in user id
   useEffect(() => {
     if (token) {
       try {
@@ -22,7 +21,6 @@ function PostList() {
   // Fetch posts
   useEffect(() => {
     const fetchPosts = async () => {
-      // Added a try-catch block for better error handling
       try {
         const res = await fetch("http://localhost:5000/api/posts");
         if (!res.ok) {
@@ -32,7 +30,6 @@ function PostList() {
         setPosts(data);
       } catch (error) {
         console.error(error);
-        // You might want to set an error state here to show in the UI
       }
     };
     fetchPosts();
@@ -74,7 +71,16 @@ function PostList() {
                 key={post._id}
                 className="bg-gray-800 p-6 rounded-xl shadow-2xl flex flex-col justify-between transition duration-300 hover:-translate-y-1 hover:shadow-purple-500/20"
               >
-                {/* Post content */}
+                {post.image && (
+                  <div className="-mx-6 -mt-6 mb-4">
+                    <img
+                      src={`http://localhost:5000${post.image}`}
+                      alt={post.title}
+                      className="w-full h-48 object-cover rounded-t-xl"
+                    />
+                  </div>
+                )}
+
                 <div>
                   <h2 className="text-2xl font-bold text-purple-300">
                     {post.title}
@@ -88,7 +94,6 @@ function PostList() {
                   </p>
                 </div>
 
-                {/* Delete button container */}
                 <div className="mt-6">
                   {userId &&
                     (post.postedBy?._id === userId ||

@@ -14,9 +14,10 @@ let port = process.env.PORT || 6000;
 
 let app = express();
 
-// Middleware to parse JSON
+
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
 // Routes
 app.use("/api/users", userRoutes);

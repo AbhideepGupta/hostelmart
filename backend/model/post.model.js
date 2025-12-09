@@ -14,13 +14,17 @@ const postSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+     image: {
+      type: String, 
+      required: false,
+    },
     postedBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // links each post to a user
+      ref: "User", 
       required: true,
     },
   },
-  { timestamps: true } // auto add createdAt & updatedAt
+  { timestamps: true } 
 );
 
 const Post = mongoose.model("Post", postSchema);

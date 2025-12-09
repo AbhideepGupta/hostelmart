@@ -12,7 +12,11 @@ function PostForm() {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.name === "image") {
+      setFormData({ ...formData, image: e.target.files[0] });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -20,22 +24,27 @@ function PostForm() {
     try {
       const token = localStorage.getItem("token");
 
+      const data = new FormData();
+      data.append("title", formData.title);
+      data.append("description", formData.description);
+      data.append("price", formData.price);
+      data.append("image", formData.image);
+
       const res = await fetch("http://localhost:5000/api/posts", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: data,
       });
 
-      const data = await res.json();
+      const response = await res.json();
 
       if (res.ok) {
         setMessage("✅ Post created successfully!");
         setTimeout(() => navigate("/posts"), 1500);
       } else {
-        setMessage("❌ " + data.message);
+        setMessage("❌ " + response.message);
       }
     } catch (error) {
       setMessage("❌ Something went wrong");
@@ -81,6 +90,14 @@ function PostForm() {
             onChange={handleChange}
             className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white"
             required
+          />
+
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={handleChange}
+            className="w-full bg-slate-700 text-white p-3 rounded-lg"
           />
 
           <button

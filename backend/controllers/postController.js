@@ -1,6 +1,6 @@
 import Post from "../model/post.model.js";
 
-// CREATE a new post
+
 export const createPost = async (req, res) => {
   try {
     const { title, description, price } = req.body;
@@ -13,7 +13,8 @@ export const createPost = async (req, res) => {
       title,
       description,
       price,
-      postedBy: req.user._id, // from authMiddleware
+      postedBy: req.user._id, 
+      image : req.file ? "/uploads/" + req.file.filename : undefined,
     });
 
     await post.save();
@@ -23,7 +24,7 @@ export const createPost = async (req, res) => {
   }
 };
 
-// GET all posts
+
 export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find().populate("postedBy", "name email");
@@ -33,7 +34,7 @@ export const getPosts = async (req, res) => {
   }
 };
 
-// GET logged-in user's posts
+
 export const getMyPosts = async (req, res) => {
   try {
     const posts = await Post.find({ postedBy: req.user._id });
@@ -43,7 +44,7 @@ export const getMyPosts = async (req, res) => {
   }
 };
 
-// DELETE a post
+
 export const deletePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
